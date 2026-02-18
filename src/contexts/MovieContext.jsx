@@ -1,11 +1,12 @@
 
-import {createContext, useState, useContext, useEffect} from "react"
+import { createContext, useState, useContext, useEffect } from "react"
 
 const MovieContext = createContext()
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useMovieContext = () => useContext(MovieContext)
 
-export const MovieProvider = ({children}) => {
+export const MovieProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([])
 
     useEffect(() => {
@@ -14,8 +15,9 @@ export const MovieProvider = ({children}) => {
         if (storedFavs) setFavorites(JSON.parse(storedFavs))
     }, [])
 
-    useEffect(() => { if (favorites.length > 0)
-        localStorage.setItem('favorites', JSON.stringify(favorites))
+    useEffect(() => {
+        if (favorites.length > 0)
+            localStorage.setItem('favorites', JSON.stringify(favorites))
     }, [favorites])
 
     const addToFavorites = (movie) => {
@@ -25,7 +27,7 @@ export const MovieProvider = ({children}) => {
     const removeFromFavorites = (movieId) => {
         setFavorites(prev => prev.filter(movie => movie.id !== movieId))
     }
-    
+
     const isFavorite = (movieId) => {
         return favorites.some(movie => movie.id === movieId)
     }
